@@ -1,15 +1,7 @@
 import React from 'react';
 
-// simple styling to be added to the cell
-const style = {
-    fill: 'yellow',
-    stroke: 'black',
-    strokeWidth: 1,
-    opacity: 0.7
-}
-
 // creates a square cell
-const Cell = ({ active, length, x, y }) => {
+const Cell = ({ activate, active, length, x, y, cellKey }) => {
     const rounding = Math.floor(length/10);
     return (
         <rect
@@ -24,7 +16,8 @@ const Cell = ({ active, length, x, y }) => {
             x={ x }
             y={ y }
             rx={ rounding }
-            ry={ rounding } >
+            ry={ rounding } 
+            onClick={ () => activate(cellKey) }>
         </rect>
     )
 }

@@ -7,7 +7,6 @@ import './index.css';
 import AppContainer from './containers/AppContainer';
 
 import reducers from './reducers';
-
 const store = createStore(reducers);
 
 ReactDOM.render(
