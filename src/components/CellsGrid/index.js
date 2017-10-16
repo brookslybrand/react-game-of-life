@@ -2,7 +2,8 @@ import React from 'react';
 
 import Cell from './Cell'
 
-const Grid = ({ n, width, length, cells, activate }) => {
+// map through all the cells and create a Cell instance for each one
+const CellsGrid = ({ n, width, length, cells, activate }) => {
     return (
         <g>
             {
@@ -15,4 +16,4 @@ const Grid = ({ n, width, length, cells, activate }) => {
     )
 }
 
-export default Grid
+export default CellsGrid

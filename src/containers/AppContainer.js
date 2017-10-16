@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 
 import App from '../components/App.js';
-import { tickerStarted, tickerStopped, randomizeGrid, step, activate } from '../actions';
+import { tickerStarted, tickerStopped, randomizeGrid, step, activate, clearGrid } from '../actions';
 
 class AppContainer extends Component {
     
@@ -18,7 +18,8 @@ class AppContainer extends Component {
     componentWillUnmount() {
         this.unsubscribe();
     }
-
+    
+    // game loop functionality was taken from Swizec Teller's book 'React+D3v4', from the section 'Animating with React, Redux, and d3'
     startTicker() {
         const { store } = this.context;
 
@@ -37,10 +38,7 @@ class AppContainer extends Component {
         }
     }
 
-    // stopTicker() {
-    //     this.tickerStopped();
-    // }
-
+    // render the app and pass along the state and action functions
     render() {
         return (
             <App reduxState={this.props.reduxState}
@@ -49,6 +47,7 @@ class AppContainer extends Component {
                  randomizeGrid={this.props.randomizeGrid}
                  step={this.props.step}
                  activate={this.props.activate}
+                 clearGrid={this.props.clearGrid}
             />
         )
     }
@@ -64,7 +63,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators(
-		{ tickerStarted, tickerStopped, randomizeGrid, step, activate } 
+		{ tickerStarted, tickerStopped, randomizeGrid, step, activate, clearGrid } 
 		, dispatch
 	);
 }
