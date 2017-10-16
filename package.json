@@ -11,6 +11,7 @@
     "typeface-roboto": "0.0.41"
   },
   "devDependencies": {
+    "gh-pages": "^1.0.0",
     "react-scripts": "1.0.14"
   },
   "homepage": "https://brookslybrand.github.io/react-redux-game-of-life",
