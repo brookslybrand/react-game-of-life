@@ -1,19 +1,19 @@
-import React from 'react';
+import React from 'react'
 
 import Cell from './Cell'
 
 // map through all the cells and create a Cell instance for each one
 const CellsGrid = ({ n, width, length, cells, activate }) => {
-    return (
-        <g>
-            {
-                cells.map( (c) => {
-                    const { active, x, y, key } = c;
-                    return <Cell activate={activate} active={active} length={length} x={x} y={y} cellKey={key} key={key} />
-                })
-            }
-        </g>
-    )
+  return (
+    <g>
+      {
+        cells.map( (c) => {
+          const { active, x, y, key } = c
+          return <Cell activate={activate} active={active} length={length} x={x} y={y} cellKey={key} key={key} />
+        })
+      }
+    </g>
+  )
 }
 
 export default CellsGrid

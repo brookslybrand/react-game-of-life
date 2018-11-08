@@ -1,18 +1,17 @@
 {
   "name": "react-redux-game-of-life",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "private": true,
   "dependencies": {
-    "material-ui": "^1.0.0-beta.16",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
-    "react-redux": "^5.0.6",
-    "redux": "^3.7.2",
+    "@material-ui/core": "^3.1.1",
+    "@material-ui/icons": "^3.0.1",
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0",
+    "react-redux": "^5.0.7",
+    "react-scripts": "^2.1.1",
+    "redux": "^4.0.0",
+    "styled-components": "^4.0.3",
     "typeface-roboto": "0.0.41"
-  },
-  "devDependencies": {
-    "gh-pages": "^1.0.0",
-    "react-scripts": "1.0.14"
   },
   "homepage": "https://brookslybrand.github.io/react-redux-game-of-life",
   "scripts": {
@@ -21,5 +20,11 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "deploy": "npm run build && gh-pages -d build"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

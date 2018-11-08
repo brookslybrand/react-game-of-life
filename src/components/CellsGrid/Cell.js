@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 // creates a square cell
 class Cell extends Component {
 
     // don't rerender the cell if it didn't change
     shouldComponentUpdate(nextProps) {
-        return nextProps.active !== this.props.active;
+        return nextProps.active !== this.props.active
     }
 
     render() {
-        const { activate, active, length, x, y, cellKey } = this.props;
+        const { activate, active, length, x, y, cellKey } = this.props
         return (
             <rect
                 ref="cell"
@@ -29,4 +29,4 @@ class Cell extends Component {
     }
 }
 
-export default Cell;
+export default Cell
