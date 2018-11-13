@@ -38,4 +38,4 @@ Description.propTypes = {
 }
   
   
-export default withStyles(styles)(Description)
+export default React.memo(withStyles(styles)(Description))

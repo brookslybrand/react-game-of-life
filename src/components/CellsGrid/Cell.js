@@ -1,32 +1,28 @@
-import React, { Component } from 'react'
+import React from 'react'
+import styled, { css } from 'styled-components'
+
+const Rect = styled.rect`
+  stroke: black;
+  stroke-width: 1;
+  opacity: 0.7;
+
+  ${({ active }) => css`
+      fill: ${active ? 'yellow' : '#909090'};
+  `}
+`
 
 // creates a square cell
-class Cell extends Component {
-
-    // don't rerender the cell if it didn't change
-    shouldComponentUpdate(nextProps) {
-        return nextProps.active !== this.props.active
-    }
-
-    render() {
-        const { activate, active, length, x, y, cellKey } = this.props
-        return (
-            <rect
-                ref="cell"
-                style={{
-                    fill: active ? 'yellow': '#909090',
-                    stroke: 'black',
-                    strokeWidth: 1,
-                    opacity: 0.7
-                }}
-                width={length}
-                height={length}
-                x={ x }
-                y={ y }
-                onClick={ () => activate(cellKey) } >
-            </rect>
-        )
-    }
+const Cell = ({ activate, active, length, x, y, cellKey }) => {
+  return (
+    <Rect
+      active={active}
+      width={length}
+      height={length}
+      x={x}
+      y={y}
+      onClick={() => activate(cellKey)}
+    />
+  )
 }
 
-export default Cell
+export default React.memo(Cell)

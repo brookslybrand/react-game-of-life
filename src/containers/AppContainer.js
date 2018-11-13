@@ -1,12 +1,12 @@
 import {connect} from 'react-redux'
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 
 import App from '../components/App.js'
 import { tickerStarted, tickerStopped, randomizeGrid, step, activate, clearGrid } from '../actions'
 
-class AppContainer extends Component {
+class AppContainer extends PureComponent {
     
     componentDidMount() {
       const { store } = this.context

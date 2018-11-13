@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
@@ -24,40 +24,37 @@ const styles = theme => ({
 })
 
 // main app consists of header, buttons, description, and the grid of cells
-class App extends Component {
+const App = (props) => {
+	const { n, width, length, cells } = props.reduxState,
+				{ classes } = props
 
-  render() {
-    const { n, width, length, cells } = this.props.reduxState,
-          { classes } = this.props
+// pretty hacky, but don't display margins of two cells on all sides
+	const cells_to_display = cells.slice(2*n, -2*n).filter( (c) => {
+		const { key } = c,
+					mod = key % n
+		return mod !== n-2 && mod !== n-1 && mod !== 0 && mod !== 1
+	})
 
-	// pretty hacky, but don't display margins of two cells on all sides
-    const cells_to_display = cells.slice(2*n, -2*n).filter( (c) => {
-    	const { key } = c,
-        	  mod = key % n
-    	return mod !== n-2 && mod !== n-1 && mod !== 0 && mod !== 1
-    })
-	
-	return (
-		<div>
-			<Header />
-			
-			<Grid className={classes.root} container spacing={24}>
+return (
+	<div>
+		<Header />
+		
+		<Grid className={classes.root} container spacing={24}>
 
-				<Grid className={classes.buttonRow} item lg={3}>
-					<Controls className={classes.buttonRow} {...this.props}  />
-					<Description />
+			<Grid className={classes.buttonRow} item lg={3}>
+				<Controls className={classes.buttonRow} {...props}  />
+				<Description />
+			</Grid>
+
+			<Grid className={classes.grid} item lg={9}>
+				<svg width={width} height={width} >
+					<CellsGrid cells={cells_to_display} width={width} length={length} activate={props.activate} />
+				</svg>
+			</Grid>
+				
 				</Grid>
-
-				<Grid className={classes.grid} item lg={9}>
-					<svg width={width} height={width} >
-						<CellsGrid cells={cells_to_display} width={width} length={length} activate={this.props.activate} />
-					</svg>
-				</Grid>
-          
-        	</Grid>
-      	</div>
-    )
-  }
+			</div>
+	)
 }
 
 App.propTypes = {
@@ -65,4 +62,4 @@ App.propTypes = {
 }
 
 
-export default withStyles(styles)(App)
+export default React.memo(withStyles(styles)(App))

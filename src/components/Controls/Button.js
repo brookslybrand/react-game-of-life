@@ -35,4 +35,4 @@ ControlButton.propTypes = {
     classes: PropTypes.object.isRequired,
   }
 
-export default withStyles(styles)(ControlButton)
+export default React.memo(withStyles(styles)(ControlButton))

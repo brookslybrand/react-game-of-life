@@ -4,22 +4,16 @@ import Grid from '@material-ui/core/Grid'
 import ControlButton from './Button'
 
 // returns a simple grid of four buttons
-const Controls = (props) => {
+const Controls = ({ randomizeGrid, clearGrid, startTicker, tickerStopped }) => 
+  <div>
+    <Grid item xs={12}>
+      <ControlButton onClick={randomizeGrid} title="Random Cells"> </ControlButton>
+      <ControlButton onClick={clearGrid} title="Clear Cells"> </ControlButton>
+    </Grid>
+    <Grid item xs={12}>
+      <ControlButton onClick={startTicker} title="Start Simulation"> </ControlButton>
+      <ControlButton onClick={tickerStopped} title="Stop Simulation"> </ControlButton>
+    </Grid>
+  </div>
 
-  const { randomizeGrid, clearGrid, startTicker, tickerStopped } = props
-
-  return (
-    <div>
-      <Grid item xs={12}>
-        <ControlButton onClick={randomizeGrid} title="Random Cells"> </ControlButton>
-        <ControlButton onClick={clearGrid} title="Clear Cells"> </ControlButton>
-      </Grid>
-      <Grid item xs={12}>
-        <ControlButton onClick={startTicker} title="Start Simulation"> </ControlButton>
-        <ControlButton onClick={tickerStopped} title="Stop Simulation"> </ControlButton>
-      </Grid>
-    </div>
-  )
-}
-
-export default Controls
+export default React.memo(Controls)

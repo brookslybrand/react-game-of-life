@@ -3,7 +3,7 @@ import React from 'react'
 import Cell from './Cell'
 
 // map through all the cells and create a Cell instance for each one
-const CellsGrid = ({ n, width, length, cells, activate }) => {
+const CellsGrid = ({ length, cells, activate }) => {
   return (
     <g>
       {
