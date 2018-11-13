@@ -1,6 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import styled from 'styled-components'
 import Grid from '@material-ui/core/Grid'
 
 import Controls from './Controls'
@@ -8,58 +7,61 @@ import CellsGrid from './CellsGrid'
 import Header from './Header'
 import Description from './Description'
 
-const styles = theme => ({
-	root: {
-		flexGrow: 1,
-		marginTop: 30
-	},
-		buttonRow: {
-		textAlign: 'left',
-		justifyContent: 'left'
-	},
-		grid: {
-		display: 'inline-block',
-		textAlign: 'left',
-},
-})
+const Root = styled(Grid)`
+	flex-grow: 1;
+	margin-top: 2.5em !important;
+`
+
+const ButtonRow = styled(Grid)`
+	text-align: left;
+	justify-content: left;
+`
+
+const CustomControls = styled(Controls)`
+	text-align: left;
+	justify-content: left;
+`
+
+const Board = styled(Grid)`
+	display: inline-block;
+	text-align: left;
+`
 
 // main app consists of header, buttons, description, and the grid of cells
 const App = (props) => {
-	const { n, width, length, cells } = props.reduxState,
-				{ classes } = props
+	const { n, width, length, cells } = props.reduxState
 
-// pretty hacky, but don't display margins of two cells on all sides
+	// Don't display margins of two cells on all sides
 	const cells_to_display = cells.slice(2*n, -2*n).filter( (c) => {
 		const { key } = c,
 					mod = key % n
 		return mod !== n-2 && mod !== n-1 && mod !== 0 && mod !== 1
 	})
+	return (
+		<div>
+			<Header />
+			
+			<Root container spacing={24}>
 
-return (
-	<div>
-		<Header />
-		
-		<Grid className={classes.root} container spacing={24}>
+				<ButtonRow item lg={3}>
+					<CustomControls
+						randomizeGrid={props.randomizeGrid}
+						clearGrid={props.clearGrid}
+						startTicker={props.startTicker}
+						tickerStopped={props.tickerStopped}
+					/>
+					<Description />
+				</ButtonRow>
 
-			<Grid className={classes.buttonRow} item lg={3}>
-				<Controls className={classes.buttonRow} {...props}  />
-				<Description />
-			</Grid>
-
-			<Grid className={classes.grid} item lg={9}>
-				<svg width={width} height={width} >
-					<CellsGrid cells={cells_to_display} width={width} length={length} activate={props.activate} />
-				</svg>
-			</Grid>
-				
-				</Grid>
-			</div>
+				<Board item lg={9}>
+					<svg width={width} height={width} >
+						<CellsGrid cells={cells_to_display} width={width} length={length} activate={props.activate} />
+					</svg>
+				</Board>
+					
+			</Root>
+		</div>
 	)
 }
 
-App.propTypes = {
-  classes: PropTypes.object.isRequired,
-}
-
-
-export default React.memo(withStyles(styles)(App))
+export default React.memo(App)

@@ -1,41 +1,33 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import styled from 'styled-components'
 import Typography from '@material-ui/core/Typography'
 
-const style = {
-  width: '100%',
-  padding: '10px'
-}
+const Title = styled(Typography)`
+  padding-top: 0.5em;
+  padding-left: 0.5em;
+`
 
-const styles = theme => ({
-  title: {
-    paddingTop: '0.5em',
-    paddingLeft: '0.5em'
-  },
-  subTitle: {
-    marginLeft: '1em',
-    marginTop: '-0.3em'
-  },
-})
-  
+const SubTitle = styled(Typography)`
+  width: 100%;
+  padding: 10px;
+  margin-top: -0.3em !important;
+  margin-left: 1em !important;
+`
+
 // header to high light what this is and what it was made in
-const Header = ({ classes }) => {
+const Header = () => {
   return (
     <div>
-      <Typography className={classes.title} variant="display2" gutterBottom>
+      <Title variant="display2" gutterBottom>
         John Conway's Game of Life
-      </Typography>
-      <Typography className={classes.subTitle} style={style} variant="display1" gutterBottom>
+      </Title>
+      <SubTitle variant="display1" gutterBottom>
         Implemented using React + Redux
-      </Typography>
+      </SubTitle>
     </div>
   )
 }
 
-Header.propTypes = {
-  classes: PropTypes.object.isRequired,
-}
   
   
-export default React.memo(withStyles(styles)(Header))
+export default React.memo(Header)

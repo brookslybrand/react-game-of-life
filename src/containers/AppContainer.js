@@ -20,7 +20,7 @@ class AppContainer extends PureComponent {
     }
     
     // game loop functionality was taken from Swizec Teller's book 'React+D3v4', from the section 'Animating with React, Redux, and d3'
-    startTicker() {
+    startTicker = () => {
       const { store } = this.context
 
       let ticker = () => {
@@ -28,7 +28,6 @@ class AppContainer extends PureComponent {
           store.dispatch(step())
 
           window.requestAnimationFrame(ticker)
-          //setTimeout(ticker, 500)
         }
       }
 
@@ -42,7 +41,7 @@ class AppContainer extends PureComponent {
     render() {
         return (
             <App reduxState={this.props.reduxState}
-              startTicker={() => this.startTicker()}
+              startTicker={this.startTicker}
               tickerStopped={this.props.tickerStopped}
               randomizeGrid={this.props.randomizeGrid}
               step={this.props.step}
