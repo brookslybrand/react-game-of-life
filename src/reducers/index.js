@@ -24,6 +24,7 @@ const createRandomGrid = (n, probActive, length) => {
 
 // l, r, t, b mean the cell is on the left, right, top, and bottom respectively
 const neighbors = (cells) => (n) => (key) => (l, r, t, b) => {
+
   const neighbors = [
     // left
     !l ? cells[key - 1] : [],
@@ -44,13 +45,14 @@ const neighbors = (cells) => (n) => (key) => (l, r, t, b) => {
       !r ? key + n + 2 : key + n + 1
     ) : []
   ].reduce( ( acc, cur ) => acc.concat(cur), [] )
+
   return neighbors.filter( (c) => c.active ).length
 }
 
 // calculate how many of the neighbors are active
 const neighborsActive = (cells, cell, n) => {
   const { key } = cell
-  const leftCond = key % n === 0,
+  const leftCond = key % n  === 0,
         rightCond = (key+1) % n === 0,
         topCond = key < n,
         botCond = n*n - key <= n
@@ -67,11 +69,7 @@ const updateCell = (cells, cell, n) => {
 }
 
 // update all cells in the grid
-const updateGrid = (cells, n) => {
-  return cells.map( (c) => {
-    return { ...c, active: updateCell(cells, c, n) } 
-  })
-}
+const updateGrid = (cells, n) => cells.map(c => Object.assign(c, {active: updateCell(cells, c, n)}))
 
 // activate (or deactivate) a single cell
 const activateCell = (cells) => (key) => {
@@ -102,7 +100,6 @@ const initialState = {
   width: 500,
   init: function() {
     this.length = Math.floor(this.width/this.n)
-    
     this.cells = createRandomGrid(this.n, this.probActive, this.length)
     return this
   }
@@ -117,7 +114,7 @@ function reducers(state = initialState, action) {
     case RANDOMIZE_GRID:
       return {...state, cells: createRandomGrid(state.n, state.probActive, state.length)}
     case STEP:
-      return {...state, cells: updateGrid( state.cells, state.n )}
+      return {...state, cells: updateGrid(state.cells, state.n)}
     case ACTIVATE:
       return {...state, cells: activateCell(state.cells.slice(0))(action.key)}
     case ClEAR_GRID:
