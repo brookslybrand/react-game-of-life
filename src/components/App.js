@@ -43,17 +43,17 @@ const App = (props) => {
 			
 			<Root container spacing={24}>
 
-				<ButtonRow item lg={3}>
+				<ButtonRow item lg={4}>
 					<CustomControls
 						randomizeGrid={props.randomizeGrid}
 						clearGrid={props.clearGrid}
 						startTicker={props.startTicker}
-						tickerStopped={props.tickerStopped}
+						stopTicker={props.stopTicker}
 					/>
 					<Description />
 				</ButtonRow>
 
-				<Board item lg={9}>
+				<Board item lg={8}>
 					<svg width={width} height={width} >
 						<CellsGrid cells={cells_to_display} width={width} length={length} activate={props.activate} />
 					</svg>
