@@ -21,9 +21,6 @@ function reducer(state, action) {
     case RANDOMIZE_GRID:
       return {...state, cells: createRandomGrid(state.n, state.probActive, state.length)}
     case STEP:
-      const t0 = performance.now()
-      updateGrid(state.cells, state.n)
-      console.log(`That took ${performance.now() - t0} milliseconds`)
       return {...state, cells: updateGrid(state.cells, state.n)}
     case ACTIVATE:
       return {...state, cells: activateCell(state.cells.slice(0))(action.key)}
