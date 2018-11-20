@@ -6,13 +6,13 @@ I remember first hearing about John Conway's Game of Life through one of my favo
 
 That is why I decided to use it as the subject of this undertaking. This project is not meant to offer great insight into the Game of Life, or to show off any interesting grids; there are plenty of other [demos out there that already do that](https://bitstorm.org/gameoflife/).
 
-I made this version of the Game of Life because I wanted to see if I could build it using React! I initially wanted to use React and D3, but as I was building it I realized there really wasn't a need to bring D3 into the game. React alongside Redux would work fine.
+I made this version of the Game of Life because I wanted to see if I could build it using React! I initially wanted to use React and D3, but as I was building it I realized there really wasn't a need to bring D3 into the game. React alongside Redux would work fine. (Update: I have since removed Redux and replaced it instead with React Hooks!)
 
 I used a method from [Swizec Teller](https://swizec.com/) that he introduced in his book [React+D3v4](https://swizec.com/reactd3js/) to create a game loop by calling `window.requestAnimationFrame(ticker)`. When the ticker starts running, I then update the cells by using a few simple functions. I'm attempting to follow a more [functional approach of writing JS](https://medium.com/javascript-scene/why-learn-functional-programming-in-javascript-composing-software-ea13afc7a257), although there is plenty of room for improvement and several times where I mutate an object, rather than creating a new one.
 
 I also used [Material-UI React Components](https://material-ui-1dab0.firebaseapp.com/), mostly because I wanted to get some practice using these tools. I'm absolutely sure I did not implement them nearly as well as I should have, but I'll chalk that up mostly to that not being the purpose of this project.
 
-Reach out to me if you have any questions about the project or the code and I'll be happy to try to provide you the answers. Also, I am not going to pretend that this implementation is the fastest or best version I could have created of the Game of Life using React and Redux, so feel free to send any suggestions you have.
+Reach out to me if you have any questions about the project or the code and I'll be happy to try to provide you the answers. Also, I am not going to pretend that this implementation is the fastest or best version I could have created of the Game of Life using React, so feel free to send any suggestions you have.
 
 ## Available Scripts
 
