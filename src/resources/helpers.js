@@ -67,7 +67,6 @@ const updateCell = (cells, cell, n) => {
 }
 
 // update all cells in the grid
-// export const updateGrid = (cells, n) => cells.map(c => Object.assign(c, {active: updateCell(cells, c, n)}))
 export const updateGrid = (cells, n) => cells.map(c => ({...c, active: updateCell(cells, c, n)}))
 
 // activate (or deactivate) a single cell

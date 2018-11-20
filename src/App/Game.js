@@ -28,7 +28,7 @@ const Board = styled(Grid)`
 `
 
 // main app consists of header, buttons, description, and the grid of cells
-const App = (props) => {
+const Game = (props) => {
 	const { n, width, length, cells } = props.reduxState
 
 	// Don't display margins of two cells on all sides
@@ -64,4 +64,4 @@ const App = (props) => {
 	)
 }
 
-export default React.memo(App)
+export default React.memo(Game)

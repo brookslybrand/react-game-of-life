@@ -25,4 +25,4 @@ const Cell = ({ activate, active, length, x, y, cellKey }) => {
   )
 }
 
-export default React.memo(Cell)
+export default Cell
