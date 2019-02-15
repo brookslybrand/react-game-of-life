@@ -10,23 +10,22 @@ const CustomPaper = styled(Paper)`
   width: auto !important;
 `
 // description of the game of life rules
-const Description = () =>
+const Description = () => (
   <CustomPaper>
-    <Typography variant="h3">
-    Rules of the Game:
-    </Typography>
+    <Typography variant="h3">Rules of the Game:</Typography>
     <p>
-      An inactive (gray) cell will become active (yellow) in the next iteration, if and only if it has 3 active neighbors.
+      An inactive (gray) cell will become active (yellow) in the next iteration,
+      if and only if it has 3 active neighbors.
     </p>
     <br />
     <p>
-      An active cell will only survive if it has exactly 2 or 3 active neighbors (diagonals included). Otherwise it will die from underpopulation or overpopulation.
+      An active cell will only survive if it has exactly 2 or 3 active neighbors
+      (diagonals included). Otherwise it will die from underpopulation or
+      overpopulation.
     </p>
     <br />
-    <p>
-      Click on any cells you like to turn them active/inactive.
-    </p>
+    <p>Click on any cells you like to turn them active/inactive.</p>
   </CustomPaper>
-  
-  
+)
+
 export default React.memo(Description)

@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react'
+import React, { useCallback, useEffect, useMemo, useReducer } from 'react'
 
 import Game from './Game.js'
 
@@ -77,16 +77,21 @@ const App = () => {
     if (state.tickerStarted) ticker()
   }, [state.tickerStarted])
 
-  const startTicker = () => dispatch({ type: START_TICKER })
-  const stopTicker = () => dispatch({ type: STOP_TICKER })
-  const randomizeGrid = () => dispatch({ type: RANDOMIZE_GRID })
-  const activate = key => dispatch({ type: ACTIVATE, key })
-  const clearGrid = () => dispatch({ type: ClEAR_GRID })
+  const applyUseCallback = useMemo(() => f => useCallback(f, [dispatch]), [
+    dispatch
+  ])
+  const startTicker = applyUseCallback(() => dispatch({ type: START_TICKER }))
+  const stopTicker = applyUseCallback(() => dispatch({ type: STOP_TICKER }))
+  const randomizeGrid = applyUseCallback(() =>
+    dispatch({ type: RANDOMIZE_GRID })
+  )
+  const activate = applyUseCallback(key => dispatch({ type: ACTIVATE, key }))
+  const clearGrid = applyUseCallback(() => dispatch({ type: ClEAR_GRID }))
 
   // render the app and pass along the state and action functions
   return (
     <Game
-      reduxState={state}
+      state={state}
       startTicker={startTicker}
       stopTicker={stopTicker}
       randomizeGrid={randomizeGrid}

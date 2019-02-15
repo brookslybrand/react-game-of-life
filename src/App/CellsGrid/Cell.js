@@ -7,7 +7,7 @@ const Rect = styled.rect`
   opacity: 0.7;
 
   ${({ active }) => css`
-      fill: ${active ? 'yellow' : '#909090'};
+    fill: ${active ? 'yellow' : '#909090'};
   `}
 `
 

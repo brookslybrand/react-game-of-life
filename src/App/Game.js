@@ -29,12 +29,12 @@ const Board = styled(Grid)`
 
 // main app consists of header, buttons, description, and the grid of cells
 const Game = props => {
-  const { n, width, length, cells } = props.reduxState
+  const { n, width, length, cells } = props.state
 
   // Don't display margins of two cells on all sides
   const cells_to_display = cells.slice(2 * n, -2 * n).filter(c => {
-    const { key } = c,
-      mod = key % n
+    const { key } = c
+    const mod = key % n
     return mod !== n - 2 && mod !== n - 1 && mod !== 0 && mod !== 1
   })
   return (

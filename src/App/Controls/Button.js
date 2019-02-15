@@ -11,20 +11,24 @@ const CustomButton = styled(Button)`
 `
 
 // simple button using material-ui's Button component
-const ControlButton = (props) => {
-    const { onClick, title } = props
-    return <CustomButton
+const ControlButton = props => {
+  const { onClick, title } = props
+  return (
+    <CustomButton
       disableRipple={true}
       onClick={onClick}
       variant="contained"
-      color= {
-          title === 'Start Simulation' ? 'primary' : 
-          title === 'Stop Simulation' ? 'secondary' :
-                    null
+      color={
+        title === 'Start Simulation'
+          ? 'primary'
+          : title === 'Stop Simulation'
+          ? 'secondary'
+          : null
       }
-      >
+    >
       {title}
     </CustomButton>
+  )
 }
 
 export default React.memo(ControlButton)

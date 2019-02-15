@@ -22,12 +22,10 @@ const Header = () => {
         John Conway's Game of Life
       </Title>
       <SubTitle variant="display1" gutterBottom>
-        Implemented using React + Redux
+        Implemented using React
       </SubTitle>
     </div>
   )
 }
 
-  
-  
 export default React.memo(Header)
