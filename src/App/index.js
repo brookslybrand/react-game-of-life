@@ -1,9 +1,21 @@
-import React, { useReducer, useMutationEffect } from 'react'
+import React, { useReducer, useEffect } from 'react'
 
-import App from './Game.js'
+import Game from './Game.js'
 
-import { createRandomGrid, updateGrid, activateCell, clearCells } from '../resources/helpers'
-import { START_TICKER, STOP_TICKER, RANDOMIZE_GRID, STEP, ACTIVATE, ClEAR_GRID, } from '../resources/constants'
+import {
+  createRandomGrid,
+  updateGrid,
+  activateCell,
+  clearCells
+} from '../resources/helpers'
+import {
+  START_TICKER,
+  STOP_TICKER,
+  RANDOMIZE_GRID,
+  STEP,
+  ACTIVATE,
+  ClEAR_GRID
+} from '../resources/constants'
 
 /*
   n: the row/column length for the grid
@@ -15,32 +27,41 @@ import { START_TICKER, STOP_TICKER, RANDOMIZE_GRID, STEP, ACTIVATE, ClEAR_GRID, 
 function reducer(state, action) {
   switch (action.type) {
     case START_TICKER:
-      return {...state, tickerStarted: true}
+      return { ...state, tickerStarted: true }
     case STOP_TICKER:
-      return {...state, tickerStarted: false}
+      return { ...state, tickerStarted: false }
     case RANDOMIZE_GRID:
-      return {...state, cells: createRandomGrid(state.n, state.probActive, state.length)}
+      return {
+        ...state,
+        cells: createRandomGrid(state.n, state.probActive, state.length)
+      }
     case STEP:
-      return {...state, cells: updateGrid(state.cells, state.n)}
+      return { ...state, cells: updateGrid(state.cells, state.n) }
     case ACTIVATE:
-      return {...state, cells: activateCell(state.cells.slice(0))(action.key)}
+      return { ...state, cells: activateCell(state.cells.slice(0))(action.key) }
     case ClEAR_GRID:
-      return {...state, cells: clearCells(state.cells)}
+      return { ...state, cells: clearCells(state.cells) }
     default:
       return state
   }
 }
 
-const AppContainer = () => {
+const initialState = {
+  tickerStarted: false,
+  n: 54,
+  probActive: 0.3,
+  width: 500,
+  length: Math.floor(500 / 54),
+  init: function() {
+    this.length = Math.floor(this.width / this.n)
+    this.cells = createRandomGrid(this.n, this.probActive, this.length)
+    return this
+  }
+}.init()
+
+const App = () => {
   // setup the reducer with the initial state, and randomize the grid
-  const [state, dispatch] = useReducer(reducer, {
-    tickerStarted: false,
-    n: 54,
-    probActive: 0.3,
-    width: 500,
-    length: Math.floor(500/54),
-    cells: []
-  }, { type: RANDOMIZE_GRID })
+  const [state, dispatch] = useReducer(reducer, initialState)
 
   const ticker = () => {
     if (window.tickerStarted) {
@@ -49,22 +70,23 @@ const AppContainer = () => {
     }
   }
 
-  useMutationEffect(() => {
+  useEffect(() => {
     // I don't like this...but give the tickerStarted value to the window
     // so that it has access to it inside of ticker
     window.tickerStarted = state.tickerStarted
     if (state.tickerStarted) ticker()
   }, [state.tickerStarted])
 
-  const startTicker = () => dispatch({type: START_TICKER})
-  const stopTicker = () => dispatch({type: STOP_TICKER}) 
-  const randomizeGrid = () => dispatch({type: RANDOMIZE_GRID})
-  const activate = key => dispatch({type: ACTIVATE, key})
-  const clearGrid = () => dispatch({type: ClEAR_GRID})
+  const startTicker = () => dispatch({ type: START_TICKER })
+  const stopTicker = () => dispatch({ type: STOP_TICKER })
+  const randomizeGrid = () => dispatch({ type: RANDOMIZE_GRID })
+  const activate = key => dispatch({ type: ACTIVATE, key })
+  const clearGrid = () => dispatch({ type: ClEAR_GRID })
 
   // render the app and pass along the state and action functions
   return (
-    <App reduxState={state}
+    <Game
+      reduxState={state}
       startTicker={startTicker}
       stopTicker={stopTicker}
       randomizeGrid={randomizeGrid}
@@ -74,4 +96,4 @@ const AppContainer = () => {
   )
 }
 
-export default AppContainer
+export default App
