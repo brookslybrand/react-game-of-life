@@ -2,6 +2,7 @@
   "name": "react-game-of-life",
   "version": "1.2.0",
   "private": true,
+  "homepage": "https://brookslybrand.github.io/react-game-of-life",
   "dependencies": {
     "@material-ui/core": "^3.5.1",
     "@material-ui/icons": "^3.0.1",

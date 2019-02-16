@@ -23,15 +23,6 @@ import {
   ClEAR_GRID
 } from '../resources/constants'
 
-const timeIt = f => {
-  const t0 = performance.now()
-  const result = f()
-  console.log(
-    `${f.toString()} took ${performance.now() - t0} milliseconds to run`
-  )
-  return result
-}
-
 /*
   n: the row/column length for the grid
   probActive: probability that a cell becomes active when randomizing
