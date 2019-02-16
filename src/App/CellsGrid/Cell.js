@@ -1,26 +1,20 @@
-import React from 'react'
-import styled, { css } from 'styled-components'
+import React, { useCallback } from 'react'
 
-const Rect = styled.rect`
-  stroke: black;
-  stroke-width: 1;
-  opacity: 0.7;
-
-  ${({ active }) => css`
-    fill: ${active ? 'yellow' : '#909090'};
-  `}
-`
+const borderStroke = 0.7
 
 // creates a square cell
-const Cell = ({ activate, active, length, x, y, cellKey }) => {
+const Cell = ({ activate, active, length, cellKey }) => {
+  const handleClick = useCallback(() => activate(cellKey))
   return (
-    <Rect
-      active={active}
-      width={length}
-      height={length}
-      x={x}
-      y={y}
-      onClick={() => activate(cellKey)}
+    <div
+      style={{
+        border: `${borderStroke}px solid black`,
+        opacity: '0.7',
+        width: length - borderStroke,
+        height: length - borderStroke,
+        background: active ? 'yellow' : '#909090'
+      }}
+      onClick={handleClick}
     />
   )
 }

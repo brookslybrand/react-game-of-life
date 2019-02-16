@@ -26,7 +26,8 @@ const CellsGrid = ({ length, cells, activate }) => {
   // update the oldCells in the object
   cellsObject.oldCells = cells
 
-  return <g>{cellsObject.cellsComponents}</g>
+  // return <g>{cellsObject.cellsComponents}</g>
+  return cellsObject.cellsComponents
 }
 
 export default CellsGrid

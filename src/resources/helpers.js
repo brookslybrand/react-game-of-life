@@ -11,8 +11,6 @@ export const createRandomGrid = (n, probActive, length) => {
       // randomly assign if a cell is active or not
       return (cells[i + j * n] = {
         active: Math.random() < probActive ? true : false,
-        x: i * length,
-        y: j * length,
         key: i + j * n
       })
     })

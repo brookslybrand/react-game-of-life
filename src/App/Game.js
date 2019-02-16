@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components'
+import React, { useMemo } from 'react'
+import styled, { css } from 'styled-components'
 import Grid from '@material-ui/core/Grid'
 
 import Controls from './Controls'
@@ -27,6 +27,16 @@ const Board = styled(Grid)`
   text-align: left;
 `
 
+const InnerBoard = styled.div`
+  display: grid;
+  ${({ width, height, columns, rows }) => css`
+    width: ${width}px;
+    height: ${height}px;
+    grid-template-rows: repeat(${rows}, 1fr);
+    grid-template-columns: repeat(${columns}, 1fr);
+  `}
+`
+
 // main app consists of header, buttons, description, and the grid of cells
 const Game = props => {
   const { n, width, length, cells } = props.state
@@ -37,10 +47,14 @@ const Game = props => {
     const mod = key % n
     return mod !== n - 2 && mod !== n - 1 && mod !== 0 && mod !== 1
   })
+
+  const cellsPerRow = useMemo(() => Math.sqrt(cells_to_display.length), [
+    cells_to_display.length
+  ])
+
   return (
     <div>
       <Header />
-
       <Root container spacing={24}>
         <ButtonRow item lg={4}>
           <CustomControls
@@ -51,16 +65,20 @@ const Game = props => {
           />
           <Description />
         </ButtonRow>
-
         <Board item lg={8}>
-          <svg width={width} height={width}>
+          <InnerBoard
+            columns={cellsPerRow}
+            rows={cellsPerRow}
+            width={width}
+            height={width}
+          >
             <CellsGrid
               cells={cells_to_display}
               width={width}
               length={length}
               activate={props.activate}
             />
-          </svg>
+          </InnerBoard>
         </Board>
       </Root>
     </div>

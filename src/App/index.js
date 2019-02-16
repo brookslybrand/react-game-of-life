@@ -37,7 +37,7 @@ const timeIt = f => {
   probActive: probability that a cell becomes active when randomizing
   width: the width of the svg
   length: length is the length of each cell
-  cells: an object containing the active state and x and y value
+  cells: an object containing the active state and a key
 */
 function reducer(state, action) {
   switch (action.type) {
