@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useReducer } from 'react'
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef
+} from 'react'
 
 import Game from './Game.js'
 
@@ -16,6 +22,15 @@ import {
   ACTIVATE,
   ClEAR_GRID
 } from '../resources/constants'
+
+const timeIt = f => {
+  const t0 = performance.now()
+  const result = f()
+  console.log(
+    `${f.toString()} took ${performance.now() - t0} milliseconds to run`
+  )
+  return result
+}
 
 /*
   n: the row/column length for the grid
@@ -62,9 +77,10 @@ const initialState = {
 const App = () => {
   // setup the reducer with the initial state, and randomize the grid
   const [state, dispatch] = useReducer(reducer, initialState)
+  const tickerStarted = useRef()
 
   const ticker = () => {
-    if (window.tickerStarted) {
+    if (tickerStarted.current) {
       dispatch({ type: STEP })
       window.requestAnimationFrame(ticker)
     }
@@ -73,7 +89,7 @@ const App = () => {
   useEffect(() => {
     // I don't like this...but give the tickerStarted value to the window
     // so that it has access to it inside of ticker
-    window.tickerStarted = state.tickerStarted
+    tickerStarted.current = state.tickerStarted
     if (state.tickerStarted) ticker()
   }, [state.tickerStarted])
 

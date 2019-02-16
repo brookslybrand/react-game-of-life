@@ -67,4 +67,4 @@ const Game = props => {
   )
 }
 
-export default React.memo(Game)
+export default Game
