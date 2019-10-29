@@ -18,10 +18,10 @@ const SubTitle = styled(Typography)`
 const Header = () => {
   return (
     <div>
-      <Title variant="display2" gutterBottom>
+      <Title variant="h4" gutterBottom>
         John Conway's Game of Life
       </Title>
-      <SubTitle variant="display1" gutterBottom>
+      <SubTitle variant="h5" gutterBottom>
         Implemented using React
       </SubTitle>
     </div>

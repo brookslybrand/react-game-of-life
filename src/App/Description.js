@@ -7,7 +7,7 @@ const CustomPaper = styled(Paper)`
   padding: 1.5em 2em !important;
   margin-top: 2em !important;
   margin-left: 1.5em !important;
-  width: auto !important;
+  max-width: 500px !important;
 `
 // description of the game of life rules
 const Description = () => (

@@ -23,7 +23,7 @@ const ControlButton = props => {
           ? 'primary'
           : title === 'Stop Simulation'
           ? 'secondary'
-          : null
+          : 'default'
       }
     >
       {title}
@@ -31,4 +31,4 @@ const ControlButton = props => {
   )
 }
 
-export default React.memo(ControlButton)
+export default ControlButton

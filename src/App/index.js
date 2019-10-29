@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useReducer,
-  useRef
-} from 'react'
+import React, { useCallback, useEffect, useReducer } from 'react'
 
 import Game from './Game.js'
 
@@ -68,32 +62,30 @@ const initialState = {
 const App = () => {
   // setup the reducer with the initial state, and randomize the grid
   const [state, dispatch] = useReducer(reducer, initialState)
-  const tickerStarted = useRef()
-
-  const ticker = () => {
-    if (tickerStarted.current) {
-      dispatch({ type: STEP })
-      window.requestAnimationFrame(ticker)
-    }
-  }
 
   useEffect(() => {
-    // I don't like this...but give the tickerStarted value to the window
-    // so that it has access to it inside of ticker
-    tickerStarted.current = state.tickerStarted
-    if (state.tickerStarted) ticker()
+    let cancel = false
+    if (state.tickerStarted) {
+      const ticker = () => {
+        if (state.tickerStarted) {
+          dispatch({ type: STEP })
+          if (!cancel) window.requestAnimationFrame(ticker)
+        }
+      }
+      ticker()
+    }
+
+    return () => (cancel = true)
   }, [state.tickerStarted])
 
-  const applyUseCallback = useMemo(() => f => useCallback(f, [dispatch]), [
-    dispatch
-  ])
-  const startTicker = applyUseCallback(() => dispatch({ type: START_TICKER }))
-  const stopTicker = applyUseCallback(() => dispatch({ type: STOP_TICKER }))
-  const randomizeGrid = applyUseCallback(() =>
-    dispatch({ type: RANDOMIZE_GRID })
+  const startTicker = useCallback(() => dispatch({ type: START_TICKER }), [])
+  const stopTicker = useCallback(() => dispatch({ type: STOP_TICKER }), [])
+  const randomizeGrid = useCallback(
+    () => dispatch({ type: RANDOMIZE_GRID }),
+    []
   )
-  const activate = applyUseCallback(key => dispatch({ type: ACTIVATE, key }))
-  const clearGrid = applyUseCallback(() => dispatch({ type: ClEAR_GRID }))
+  const activate = useCallback(key => dispatch({ type: ACTIVATE, key }), [])
+  const clearGrid = useCallback(() => dispatch({ type: ClEAR_GRID }), [])
 
   // render the app and pass along the state and action functions
   return (

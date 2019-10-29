@@ -29,6 +29,7 @@ const Board = styled(Grid)`
 
 const InnerBoard = styled.div`
   display: grid;
+  margin-left: 1.5rem;
   ${({ width, height, columns, rows }) => css`
     width: ${width}px;
     height: ${height}px;
@@ -42,11 +43,15 @@ const Game = props => {
   const { n, width, length, cells } = props.state
 
   // Don't display margins of two cells on all sides
-  const cells_to_display = cells.slice(2 * n, -2 * n).filter(c => {
-    const { key } = c
-    const mod = key % n
-    return mod !== n - 2 && mod !== n - 1 && mod !== 0 && mod !== 1
-  })
+  const cells_to_display = useMemo(
+    () =>
+      cells.slice(2 * n, -2 * n).filter(c => {
+        const { key } = c
+        const mod = key % n
+        return mod !== n - 2 && mod !== n - 1 && mod !== 0 && mod !== 1
+      }),
+    [cells, n]
+  )
 
   const cellsPerRow = useMemo(() => Math.sqrt(cells_to_display.length), [
     cells_to_display.length
@@ -55,7 +60,7 @@ const Game = props => {
   return (
     <div>
       <Header />
-      <Root container spacing={24}>
+      <Root container spacing={1}>
         <ButtonRow item lg={4}>
           <CustomControls
             randomizeGrid={props.randomizeGrid}
