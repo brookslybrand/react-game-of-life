@@ -52,7 +52,7 @@ const initialState = {
   probActive: 0.3,
   width: 500,
   length: Math.floor(500 / 54),
-  init: function() {
+  init: function () {
     this.length = Math.floor(this.width / this.n)
     this.cells = createRandomGrid(this.n, this.probActive, this.length)
     return this
