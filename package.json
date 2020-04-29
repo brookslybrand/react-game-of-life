@@ -2,23 +2,21 @@
   "name": "react-game-of-life",
   "version": "1.2.0",
   "private": true,
-  "homepage": "https://brookslybrand.github.io/react-game-of-life",
   "dependencies": {
-    "@material-ui/core": "^4.5.2",
-    "@material-ui/icons": "^4.5.1",
-    "react": "0.0.0-experimental-f6b8d31a7",
-    "react-dom": "0.0.0-experimental-f6b8d31a7",
-    "react-scripts": "^3.2.0",
-    "styled-components": "^4.4.0",
+    "@material-ui/core": "^4.9.12",
+    "@material-ui/icons": "^4.9.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "^3.4.1",
+    "styled-components": "^4.4.1",
     "typeface-roboto": "0.0.75"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "eject": "react-scripts eject"
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "analyze": "npm run build && source-map-explorer 'build/static/js/*.js'"
   },
   "browserslist": [
     ">0.2%",
@@ -27,6 +25,6 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "gh-pages": "^2.1.1"
+    "source-map-explorer": "^2.4.2"
   }
 }
