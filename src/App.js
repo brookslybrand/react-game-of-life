@@ -7,7 +7,7 @@ import {
   updateGrid,
   activateCell,
   clearCells
-} from '../resources/helpers'
+} from './resources/helpers'
 import {
   START_TICKER,
   STOP_TICKER,
@@ -15,7 +15,7 @@ import {
   STEP,
   ACTIVATE,
   ClEAR_GRID
-} from '../resources/constants'
+} from './resources/constants'
 
 /*
   n: the row/column length for the grid

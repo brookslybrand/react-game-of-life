@@ -13,13 +13,13 @@
   },
   "scripts": {
     "build:styles": "postcss src/tailwind.css -o src/styles.css",
-    "prestart": "yarn build:styles",
+    "prestart": "npm run build:styles",
     "start": "react-scripts start",
-    "prebuild": "NODE_ENV=production yarn build:styles",
+    "prebuild": "NODE_ENV=production npm run build:styles",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "analyze": "source-map-explorer 'build/static/js/*.js'"
+    "analyze": "npm run build && source-map-explorer 'build/static/js/*.js'"
   },
   "eslintConfig": {
     "extends": "react-app"
