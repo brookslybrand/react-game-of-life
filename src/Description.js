@@ -1,18 +1,9 @@
 import React from 'react'
-import styled from 'styled-components'
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
 
-const CustomPaper = styled(Paper)`
-  padding: 1.5em 2em !important;
-  margin-top: 2em !important;
-  margin-left: 1.5em !important;
-  max-width: 500px !important;
-`
 // description of the game of life rules
 const Description = () => (
-  <CustomPaper>
-    <Typography variant="h3">Rules of the Game:</Typography>
+  <div className="max-w-md rounded overflow-hidden shadow-lg mt-4 p-4">
+    <h3 className="text-3xl mb-2">Rules of the Game:</h3>
     <p>
       An inactive (gray) cell will become active (yellow) in the next iteration,
       if and only if it has 3 active neighbors.
@@ -25,7 +16,7 @@ const Description = () => (
     </p>
     <br />
     <p>Click on any cells you like to turn them active/inactive.</p>
-  </CustomPaper>
+  </div>
 )
 
 export default React.memo(Description)

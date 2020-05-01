@@ -89,14 +89,16 @@ const App = () => {
 
   // render the app and pass along the state and action functions
   return (
-    <Game
-      state={state}
-      startTicker={startTicker}
-      stopTicker={stopTicker}
-      randomizeGrid={randomizeGrid}
-      activate={activate}
-      clearGrid={clearGrid}
-    />
+    <div className="antialiased font-sans p-6">
+      <Game
+        state={state}
+        startTicker={startTicker}
+        stopTicker={stopTicker}
+        randomizeGrid={randomizeGrid}
+        activate={activate}
+        clearGrid={clearGrid}
+      />
+    </div>
   )
 }
 
