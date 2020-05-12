@@ -1,10 +1,22 @@
-import React from 'react'
+import React, { memo } from 'react'
 import classNames from 'classnames'
 
+import {
+  START_TICKER,
+  STOP_TICKER,
+  RANDOMIZE_GRID,
+  ClEAR_GRID
+} from './constants'
+
 // returns a simple grid of four buttons
-function Controls({ randomizeGrid, clearGrid, startTicker, stopTicker }) {
+const Controls = memo(function Controls({ dispatch }) {
+  const startTicker = () => dispatch({ type: START_TICKER })
+  const stopTicker = () => dispatch({ type: STOP_TICKER })
+  const randomizeGrid = () => dispatch({ type: RANDOMIZE_GRID })
+  const clearGrid = () => dispatch({ type: ClEAR_GRID })
+
   return (
-    <div className="max-w-md grid grid-cols-2 grid-rows-2 gap-4">
+    <div className="max-w-md mt-4 grid grid-cols-2 grid-rows-2 gap-4">
       <Button onClick={randomizeGrid}>Random Cells</Button>
       <Button onClick={clearGrid}>Clear Cells</Button>
       <Button
@@ -21,7 +33,7 @@ function Controls({ randomizeGrid, clearGrid, startTicker, stopTicker }) {
       </Button>
     </div>
   )
-}
+})
 
 function Button({ className, ...props }) {
   return (

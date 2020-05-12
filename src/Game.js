@@ -1,19 +1,9 @@
 import React from 'react'
 
-import Controls from './Controls'
 import CellsGrid from './CellsGrid'
-import Header from './Header'
-import Description from './Description'
 
 // main app consists of header, buttons, description, and the grid of cells
-const Game = ({
-  state,
-  randomizeGrid,
-  clearGrid,
-  startTicker,
-  stopTicker,
-  activate
-}) => {
+const Game = ({ state, activate }) => {
   const { n, width, length, cells } = state
 
   // Don't display margins of two cells on all sides
@@ -27,15 +17,6 @@ const Game = ({
 
   return (
     <div className="mt-2 space-y-4">
-      <Header />
-      <Controls
-        randomizeGrid={randomizeGrid}
-        clearGrid={clearGrid}
-        startTicker={startTicker}
-        stopTicker={stopTicker}
-      />
-      <Description />
-
       <div
         style={{
           width,
