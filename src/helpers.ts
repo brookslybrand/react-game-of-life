@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 // assign all the cells random values for whether they are active or not
 // using an array of arrays really might have been the wisest option... wouldn't be too hard to implement,
 // good to think a little more ahead next time

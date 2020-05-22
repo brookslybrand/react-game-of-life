@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React, { memo } from 'react'
 import { ACTIVATE } from './constants'
 

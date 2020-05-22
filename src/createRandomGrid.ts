@@ -1,3 +1,4 @@
+//@ts-nocheck
 export function createRandomGrid(n, probActive, length) {
   const cells = []
   const l = [...Array(n).keys()]
