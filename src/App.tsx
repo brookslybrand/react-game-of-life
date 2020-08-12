@@ -3,8 +3,12 @@ import React, { useEffect, useReducer, Fragment } from 'react'
 
 import Game from './Game'
 
-import { updateGrid, activateCell, clearCells } from './helpers'
-import { createRandomGrid } from './createRandomGrid'
+import {
+  createRandomGrid,
+  updateGrid,
+  activateCell,
+  clearCells,
+} from './helpers'
 import {
   START_TICKER,
   STOP_TICKER,
@@ -87,7 +91,7 @@ const initialState = {
   length: Math.floor(500 / 54),
   init: function () {
     this.length = Math.floor(this.width / this.n)
-    this.cells = createRandomGrid(this.n, this.probActive, this.length)
+    this.cells = createRandomGrid(this.n, this.probActive)
     return this
   },
 }.init()

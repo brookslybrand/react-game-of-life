@@ -3,20 +3,25 @@
 // assign all the cells random values for whether they are active or not
 // using an array of arrays really might have been the wisest option... wouldn't be too hard to implement,
 // good to think a little more ahead next time
-export const createRandomGrid = (n, probActive, length) => {
-  const cells = [],
-    l = [...Array(n).keys()]
-  // rows
-  l.map(i => {
-    // columns
-    return l.map(j => {
-      // randomly assign if a cell is active or not
-      return (cells[i + j * n] = {
-        active: Math.random() < probActive ? true : false,
-        key: i + j * n
-      })
-    })
-  })
+type Cell = {
+  active: boolean
+  key: number
+}
+
+/**
+ * Assign all the cells random values for whether they are active or not
+ * using the probActive value
+ */
+export function createRandomGrid(n: number, probActive: number): Cell[] {
+  const cells = []
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      cells[i + j * n] = {
+        active: Math.random() < probActive,
+        key: i + j * n,
+      }
+    }
+  }
   return cells
 }
 
@@ -46,7 +51,7 @@ const neighbors = cells => n => key => (l, r, t, b) => {
           // include right?
           !r ? key + n + 2 : key + n + 1
         )
-        .map(c => c.active)
+        .map(c => c.active),
   ]
     .flat()
     .reduce((count, active) => (active ? count + 1 : count), 0)
