@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { useGameDispatch } from './game-state'
 
 // returns a simple grid of four buttons
-const Controls = function Controls() {
+const Controls = function Controls({ className }: { className?: string }) {
   const dispatch = useGameDispatch()
   const startTicker = () => dispatch({ type: 'START_TICKER' })
   const stopTicker = () => dispatch({ type: 'STOP_TICKER' })
@@ -12,7 +12,12 @@ const Controls = function Controls() {
   const clearGrid = () => dispatch({ type: 'ClEAR_GRID' })
 
   return (
-    <div className="max-w-md mt-4 grid grid-cols-2 grid-rows-2 gap-4">
+    <div
+      className={classNames(
+        'max-w-md mt-4 grid grid-cols-2 grid-rows-2 gap-4',
+        className
+      )}
+    >
       <Button onClick={randomizeGrid}>Random Grid</Button>
       <Button onClick={clearGrid}>Clear Grid</Button>
       <Button
