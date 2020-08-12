@@ -1,13 +1,6 @@
 import * as React from 'react'
 import classNames from 'classnames'
 
-import {
-  START_TICKER,
-  STOP_TICKER,
-  RANDOMIZE_GRID,
-  ClEAR_GRID,
-} from './constants'
-
 import { Dispatch } from './types'
 
 type ControlsProps = {
@@ -16,10 +9,10 @@ type ControlsProps = {
 
 // returns a simple grid of four buttons
 const Controls = function Controls({ dispatch }: ControlsProps) {
-  const startTicker = () => dispatch({ type: START_TICKER })
-  const stopTicker = () => dispatch({ type: STOP_TICKER })
-  const randomizeGrid = () => dispatch({ type: RANDOMIZE_GRID })
-  const clearGrid = () => dispatch({ type: ClEAR_GRID })
+  const startTicker = () => dispatch({ type: 'START_TICKER' })
+  const stopTicker = () => dispatch({ type: 'STOP_TICKER' })
+  const randomizeGrid = () => dispatch({ type: 'RANDOMIZE_GRID' })
+  const clearGrid = () => dispatch({ type: 'ClEAR_GRID' })
 
   return (
     <div className="max-w-md mt-4 grid grid-cols-2 grid-rows-2 gap-4">

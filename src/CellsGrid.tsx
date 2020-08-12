@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { TOGGLE_CELL } from './constants'
 
 import { Grid, Dispatch } from './types'
 
@@ -32,7 +31,7 @@ type CellProps = {
   active: boolean
   row: number
   col: number
-  dispatch: (action: any) => void
+  dispatch: Dispatch
 }
 
 function Cell({ active, row, col, dispatch }: CellProps) {
@@ -41,7 +40,7 @@ function Cell({ active, row, col, dispatch }: CellProps) {
       className={`border border-black opacity-75 ${
         active ? 'bg-yellow-400' : 'bg-gray-500'
       }`}
-      onClick={() => dispatch({ type: TOGGLE_CELL, row, col })}
+      onClick={() => dispatch({ type: 'TOGGLE_CELL', row, col })}
     />
   )
 }
