@@ -3,19 +3,15 @@ import React, { useEffect, useReducer, Fragment } from 'react'
 
 import Game from './Game'
 
-import {
-  createRandomGrid,
-  updateGrid,
-  activateCell,
-  clearCells
-} from './helpers'
+import { updateGrid, activateCell, clearCells } from './helpers'
+import { createRandomGrid } from './createRandomGrid'
 import {
   START_TICKER,
   STOP_TICKER,
   RANDOMIZE_GRID,
   STEP,
   ACTIVATE,
-  ClEAR_GRID
+  ClEAR_GRID,
 } from './constants'
 import Controls from './Controls'
 
@@ -93,7 +89,7 @@ const initialState = {
     this.length = Math.floor(this.width / this.n)
     this.cells = createRandomGrid(this.n, this.probActive, this.length)
     return this
-  }
+  },
 }.init()
 
 /*
@@ -112,7 +108,7 @@ function reducer(state, action) {
     case RANDOMIZE_GRID:
       return {
         ...state,
-        cells: createRandomGrid(state.n, state.probActive, state.length)
+        cells: createRandomGrid(state.n, state.probActive, state.length),
       }
     case STEP:
       return { ...state, cells: updateGrid(state.cells, state.n) }

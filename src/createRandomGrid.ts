@@ -1,5 +1,7 @@
+// TODO: delete
 //@ts-nocheck
-export function createRandomGrid(n, probActive, length) {
+
+export const createRandomGrid = (n, probActive, length) => {
   const cells = []
   const l = [...Array(n).keys()]
   // rows
@@ -9,7 +11,7 @@ export function createRandomGrid(n, probActive, length) {
       // randomly assign if a cell is active or not
       return (cells[i + j * n] = {
         active: Math.random() < probActive ? true : false,
-        key: i + j * n
+        key: i + j * n,
       })
     })
   })
