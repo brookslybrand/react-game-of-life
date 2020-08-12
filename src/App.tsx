@@ -1,20 +1,11 @@
-//@ts-nocheck
-import React, { useEffect, useReducer, Fragment } from 'react'
+import * as React from 'react'
 
 import Game from './Game'
 
-import { createRandomGrid, updateGrid, toggleCell, clearCells } from './helpers'
-import {
-  START_TICKER,
-  STOP_TICKER,
-  RANDOMIZE_GRID,
-  STEP,
-  TOGGLE_CELL,
-  ClEAR_GRID,
-} from './constants'
 import Controls from './Controls'
+import { useGameState } from './game-state'
 
-const App = () => {
+function App() {
   // render the app and pass along the state and action functions
   return (
     <div className="antialiased font-sans p-6 bg-gray-100">
@@ -50,74 +41,11 @@ function ControlsAndGame() {
   // setup the reducer with the initial state, and randomize the grid
   const [state, dispatch] = useGameState()
   return (
-    <Fragment>
+    <>
       <Controls dispatch={dispatch} />
-      <Game state={state} dispatch={dispatch} />
-    </Fragment>
+      {/* <Game state={state} dispatch={dispatch} /> */}
+    </>
   )
-}
-
-function useGameState() {
-  const [state, dispatch] = useReducer(reducer, initialState)
-
-  useEffect(() => {
-    let cancel = false
-    if (state.tickerStarted) {
-      const ticker = () => {
-        if (state.tickerStarted) {
-          dispatch({ type: STEP })
-          if (!cancel) window.requestAnimationFrame(ticker)
-        }
-      }
-      ticker()
-    }
-
-    return () => (cancel = true)
-  }, [state.tickerStarted])
-
-  return [state, dispatch]
-}
-
-const initialState = {
-  tickerStarted: false,
-  n: 54,
-  probActive: 0.3,
-  width: 500,
-  length: Math.floor(500 / 54),
-  init: function () {
-    this.length = Math.floor(this.width / this.n)
-    this.cells = createRandomGrid(this.n, this.probActive)
-    return this
-  },
-}.init()
-
-/*
-  n: the row/column length for the grid
-  probActive: probability that a cell becomes active when randomizing
-  width: the width of the svg
-  length: length is the length of each cell
-  cells: an object containing the active state and a key
-*/
-function reducer(state, action) {
-  switch (action.type) {
-    case START_TICKER:
-      return { ...state, tickerStarted: true }
-    case STOP_TICKER:
-      return { ...state, tickerStarted: false }
-    case RANDOMIZE_GRID:
-      return {
-        ...state,
-        cells: createRandomGrid(state.n, state.probActive, state.length),
-      }
-    case STEP:
-      return { ...state, cells: updateGrid(state.cells, state.n) }
-    case TOGGLE_CELL:
-      return { ...state, cells: toggleCell(state.cells.slice(0), action.key) }
-    case ClEAR_GRID:
-      return { ...state, cells: clearCells(state.cells) }
-    default:
-      return state
-  }
 }
 
 export default App

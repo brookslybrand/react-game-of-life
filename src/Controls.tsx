@@ -1,5 +1,4 @@
-//@ts-nocheck
-import React, { memo } from 'react'
+import * as React from 'react'
 import classNames from 'classnames'
 
 import {
@@ -9,8 +8,14 @@ import {
   ClEAR_GRID,
 } from './constants'
 
+import { Dispatch } from './types'
+
+type ControlsProps = {
+  dispatch: Dispatch
+}
+
 // returns a simple grid of four buttons
-const Controls = memo(function Controls({ dispatch }) {
+const Controls = function Controls({ dispatch }: ControlsProps) {
   const startTicker = () => dispatch({ type: START_TICKER })
   const stopTicker = () => dispatch({ type: STOP_TICKER })
   const randomizeGrid = () => dispatch({ type: RANDOMIZE_GRID })
@@ -34,9 +39,12 @@ const Controls = memo(function Controls({ dispatch }) {
       </Button>
     </div>
   )
-})
+}
 
-function Button({ className, ...props }) {
+function Button({
+  className,
+  ...props
+}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <button
       className={classNames(

@@ -30,7 +30,8 @@ const Cell = memo(function Cell({ cellKey, active, dispatch }: CellProps) {
       className={`border border-black opacity-75 ${
         active ? 'bg-yellow-400' : 'bg-gray-500'
       }`}
-      onClick={() => dispatch({ type: TOGGLE_CELL, key: cellKey })}
+      // TODO: fix
+      onClick={() => dispatch({ type: TOGGLE_CELL, row: 0, col: 0 })}
     />
   )
 })
