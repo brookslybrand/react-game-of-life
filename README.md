@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
+[You can checkout the demo here](https://brooks-lybrand-game-of-life.netlify.app/)
+
 ## About the Project
 
 I remember first hearing about John Conway's Game of Life through one of my favorite [YouTube channels](https://www.youtube.com/watch?v=R9Plq-D1gEk) when I was about 15. Ever since then I have enjoyed the simulation because it is incredibly brilliant and incredibly simple.
