@@ -43,7 +43,7 @@ function ControlsAndGame() {
   return (
     <>
       <Controls dispatch={dispatch} />
-      {/* <Game state={state} dispatch={dispatch} /> */}
+      <Game state={state} dispatch={dispatch} />
     </>
   )
 }

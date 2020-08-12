@@ -1,39 +1,49 @@
-import React, { memo, Fragment } from 'react'
+import * as React from 'react'
 import { TOGGLE_CELL } from './constants'
 
-import { CellObject } from './types'
+import { Grid, Dispatch } from './types'
 
 type CellsGridProps = {
-  cells: CellObject[]
-  dispatch: () => void
+  grid: Grid
+  dispatch: Dispatch
 }
 
-function CellsGrid({ cells, dispatch }: CellsGridProps) {
+function CellsGrid({ grid, dispatch }: CellsGridProps) {
   return (
-    <Fragment>
-      {cells.map(({ active, key }, i) => (
-        <Cell key={key} cellKey={key} active={active} dispatch={dispatch} />
-      ))}
-    </Fragment>
+    <>
+      {grid
+        .map((row, i) =>
+          row.map((active, j) => (
+            <Cell
+              key={`${i}-${j}`}
+              row={i}
+              col={j}
+              active={active}
+              dispatch={dispatch}
+            />
+          ))
+        )
+        .flat()}
+    </>
   )
 }
 
 type CellProps = {
-  cellKey: number
   active: boolean
+  row: number
+  col: number
   dispatch: (action: any) => void
 }
 
-const Cell = memo(function Cell({ cellKey, active, dispatch }: CellProps) {
+function Cell({ active, row, col, dispatch }: CellProps) {
   return (
-    <div
+    <button
       className={`border border-black opacity-75 ${
         active ? 'bg-yellow-400' : 'bg-gray-500'
       }`}
-      // TODO: fix
-      onClick={() => dispatch({ type: TOGGLE_CELL, row: 0, col: 0 })}
+      onClick={() => dispatch({ type: TOGGLE_CELL, row, col })}
     />
   )
-})
+}
 
 export default CellsGrid

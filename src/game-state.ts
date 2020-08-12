@@ -33,7 +33,7 @@ export function useGameState(): [AppState, Dispatch] {
   return [state, dispatch]
 }
 
-const n = 54
+const n = 50
 const probActive = 0.3
 const width = 500
 const initialState = {
@@ -42,7 +42,7 @@ const initialState = {
   probActive,
   width,
   length: Math.floor(width / n),
-  cells: createRandomGrid(n, probActive),
+  grid: createRandomGrid(n, probActive),
 }
 
 /*
@@ -50,7 +50,7 @@ const initialState = {
   probActive: probability that a cell becomes active when randomizing
   width: the width of the svg
   length: length is the length of each cell
-  cells: an object containing the active state and a key
+  grid: an object containing the active state and a key
 */
 function reducer(state: AppState, action: Action) {
   switch (action.type) {
@@ -61,17 +61,17 @@ function reducer(state: AppState, action: Action) {
     case RANDOMIZE_GRID:
       return {
         ...state,
-        cells: createRandomGrid(state.n, state.probActive),
+        grid: createRandomGrid(state.n, state.probActive),
       }
     case STEP:
-      return { ...state, cells: updateGrid(state.cells) }
+      return { ...state, grid: updateGrid(state.grid) }
     case TOGGLE_CELL:
       return {
         ...state,
-        cells: toggleCell(state.cells, action.row, action.col),
+        grid: toggleCell(state.grid, action.row, action.col),
       }
     case ClEAR_GRID:
-      return { ...state, cells: clearCells(state.cells) }
+      return { ...state, grid: clearCells(state.grid) }
     default:
       return state
   }

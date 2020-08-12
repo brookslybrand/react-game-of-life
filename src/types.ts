@@ -1,10 +1,5 @@
 import * as React from 'react'
 
-export interface CellObject {
-  active: boolean
-  key: number
-}
-
 export type Grid = boolean[][]
 
 export type AppState = {
@@ -13,7 +8,7 @@ export type AppState = {
   probActive: number
   width: number
   length: number
-  cells: Grid
+  grid: Grid
 }
 
 export type Action =

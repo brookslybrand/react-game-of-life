@@ -1,30 +1,15 @@
-import React from 'react'
+import * as React from 'react'
 
 import CellsGrid from './CellsGrid'
-import { CellObject } from './types'
+import { AppState, Dispatch } from './types'
 
 // main app consists of header, buttons, description, and the grid of cells
 type GameProps = {
-  state: {
-    n: number
-    width: number
-    cells: CellObject[]
-  }
-  dispatch: () => void
+  state: AppState
+  dispatch: Dispatch
 }
 const Game = ({ state, dispatch }: GameProps) => {
-  const { n, width, cells } = state
-
-  // Don't display margins of two cells on all sides
-  const cells_to_display = cells
-    .slice(2 * n, -2 * n)
-    .filter((c: { key: number }) => {
-      const { key } = c
-      const mod = key % n
-      return mod !== n - 2 && mod !== n - 1 && mod !== 0 && mod !== 1
-    })
-
-  const cellsPerRow = Math.sqrt(cells_to_display.length)
+  const { n, width, grid } = state
 
   return (
     <div className="mt-2 space-y-4">
@@ -33,12 +18,12 @@ const Game = ({ state, dispatch }: GameProps) => {
           width,
           height: width,
           display: 'grid',
-          gridTemplateRows: `repeat(${cellsPerRow}, 1fr)`,
-          gridTemplateColumns: `repeat(${cellsPerRow}, 1fr)`,
-          gridGap: 1
+          gridTemplateRows: `repeat(${n}, 1fr)`,
+          gridTemplateColumns: `repeat(${n}, 1fr)`,
+          gridGap: 1,
         }}
       >
-        <CellsGrid cells={cells_to_display} dispatch={dispatch} />
+        <CellsGrid grid={grid} dispatch={dispatch} />
       </div>
     </div>
   )
