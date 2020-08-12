@@ -1,19 +1,16 @@
 import * as React from 'react'
 
 import CellsGrid from './CellsGrid'
-import { AppState, Dispatch } from './types'
+import { useGameState, useGameDispatch } from './game-state'
 
 // main app consists of header, buttons, description, and the grid of cells
-type GameProps = {
-  state: AppState
-  dispatch: Dispatch
-}
-const Game = ({ state, dispatch }: GameProps) => {
-  const { n, width, grid } = state
+const Game = () => {
+  const [{ n, width, grid }, dispatch] = [useGameState(), useGameDispatch()]
 
   return (
     <div className="mt-2 space-y-4">
       <div
+        // use the style prop so because this would be difficult and un-purgeable with tailwind
         style={{
           width,
           height: width,

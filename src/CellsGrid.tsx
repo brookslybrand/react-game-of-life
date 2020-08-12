@@ -34,7 +34,12 @@ type CellProps = {
   dispatch: Dispatch
 }
 
-function Cell({ active, row, col, dispatch }: CellProps) {
+const Cell = React.memo(function Cell({
+  active,
+  row,
+  col,
+  dispatch,
+}: CellProps) {
   return (
     <button
       className={`border border-black opacity-75 ${
@@ -43,6 +48,6 @@ function Cell({ active, row, col, dispatch }: CellProps) {
       onClick={() => dispatch({ type: 'TOGGLE_CELL', row, col })}
     />
   )
-}
+})
 
 export default CellsGrid

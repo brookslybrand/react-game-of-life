@@ -3,7 +3,7 @@ import * as React from 'react'
 import Game from './Game'
 
 import Controls from './Controls'
-import { useGameState } from './game-state'
+import { GameStateProvider } from './game-state'
 
 function App() {
   // render the app and pass along the state and action functions
@@ -12,7 +12,10 @@ function App() {
       <h1 className="text-4xl text-gray-800">John Conway's Game of Life</h1>
       <h2 className="text-ls text-gray-800">Implemented using React</h2>
       <Description />
-      <ControlsAndGame />
+      <GameStateProvider>
+        <Controls />
+        <Game />
+      </GameStateProvider>
     </div>
   )
 }
@@ -33,18 +36,6 @@ function Description() {
       </p>
       <p>Click on any cells you like to turn them active/inactive.</p>
     </div>
-  )
-}
-
-// TODO: rename
-function ControlsAndGame() {
-  // setup the reducer with the initial state, and randomize the grid
-  const [state, dispatch] = useGameState()
-  return (
-    <>
-      <Controls dispatch={dispatch} />
-      <Game state={state} dispatch={dispatch} />
-    </>
   )
 }
 

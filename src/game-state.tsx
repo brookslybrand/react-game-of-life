@@ -1,30 +1,7 @@
 import * as React from 'react'
 import { Grid, AppState, Action, Dispatch } from './types'
 
-const { useReducer, useEffect } = React
-
-export function useGameState(): [AppState, Dispatch] {
-  const [state, dispatch] = useReducer(reducer, initialState)
-
-  useEffect(() => {
-    let cancel = false
-    if (state.tickerStarted) {
-      const ticker = () => {
-        if (state.tickerStarted) {
-          dispatch({ type: 'STEP' })
-          if (!cancel) window.requestAnimationFrame(ticker)
-        }
-      }
-      ticker()
-    }
-
-    return () => {
-      cancel = true
-    }
-  }, [state.tickerStarted])
-
-  return [state, dispatch]
-}
+const { createContext, useContext, useReducer, useEffect } = React
 
 const n = 50
 const probActive = 0.3
@@ -36,6 +13,44 @@ const initialState = {
   width,
   length: Math.floor(width / n),
   grid: createRandomGrid(n, probActive),
+}
+// have to set these initial states so typescript doesn't wine
+const GameStateContext = createContext<AppState>(initialState)
+const GameDispatchContext = createContext<Dispatch>(() => initialState)
+
+export function GameStateProvider({ children }: { children: React.ReactNode }) {
+  const [state, dispatch] = useReducer(reducer, initialState)
+
+  useEffect(() => {
+    let cancel = false
+    if (state.tickerStarted) {
+      const ticker = () => {
+        dispatch({ type: 'STEP' })
+        if (!cancel) window.requestAnimationFrame(ticker)
+      }
+      ticker()
+    }
+
+    return () => {
+      cancel = true
+    }
+  }, [state.tickerStarted])
+
+  return (
+    <GameStateContext.Provider value={state}>
+      <GameDispatchContext.Provider value={dispatch}>
+        {children}
+      </GameDispatchContext.Provider>
+    </GameStateContext.Provider>
+  )
+}
+
+export function useGameState() {
+  return useContext(GameStateContext)
+}
+
+export function useGameDispatch() {
+  return useContext(GameDispatchContext)
 }
 
 /*
@@ -64,7 +79,7 @@ function reducer(state: AppState, action: Action) {
         grid: toggleCell(state.grid, action.row, action.col),
       }
     case 'ClEAR_GRID':
-      return { ...state, grid: clearCells(state.grid) }
+      return { ...state, grid: clearCells(state.grid), tickerStarted: false }
     default:
       return state
   }
