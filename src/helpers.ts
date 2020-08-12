@@ -1,5 +1,3 @@
-//@ts-nocheck
-
 // assign all the cells random values for whether they are active or not
 // using an array of arrays really might have been the wisest option... wouldn't be too hard to implement,
 // good to think a little more ahead next time
@@ -26,7 +24,12 @@ export function createRandomGrid(n: number, probActive: number): Cell[] {
 }
 
 // l, r, t, b mean the cell is on the left, right, top, and bottom respectively
-const neighbors = cells => n => key => (l, r, t, b) => {
+const neighbors = (cells: Cell[]) => (n: number) => (key: number) => (
+  l: boolean,
+  r: boolean,
+  t: boolean,
+  b: boolean
+) => {
   return [
     // if not a left cell, check cell to the left
     !l && cells[key - 1].active,
@@ -58,7 +61,7 @@ const neighbors = cells => n => key => (l, r, t, b) => {
 }
 
 // calculate how many of the neighbors are active
-const neighborsActive = (cells, cell, n) => {
+function neighborsActive(cells: Cell[], cell: Cell, n: number) {
   const { key } = cell
   const leftCond = key % n === 0
   // if the cell is on the left, it can't be on the right
@@ -70,26 +73,32 @@ const neighborsActive = (cells, cell, n) => {
   return neighbors(cells)(n)(key)(leftCond, rightCond, topCond, botCond)
 }
 
-// update a cell according to the Game of Life rules
-const updateCell = (cells, cell, n) => {
+/**
+ * Update a cell according to the Game of Life rules
+ */
+function updateCell(cells: Cell[], cell: Cell, n: number) {
   const neighbors = neighborsActive(cells, cell, n)
   return neighbors === 3 || (cell.active && neighbors === 2)
 }
 
-// update all cells in the grid
-export const updateGrid = (cells, n) =>
-  cells.map(c => ({ ...c, active: updateCell(cells, c, n) }))
-
-// activate (or deactivate) a single cell
-export const activateCell = cells => key => {
+/**
+ * Update all cells in the grid
+ */
+export function updateGrid(cells: Cell[], n: number): Cell[] {
+  return cells.map(c => ({ ...c, active: updateCell(cells, c, n) }))
+}
+/**
+ * Activate (or deactivate) a single cell
+ */
+export function activateCell(cells: Cell[], key: number): Cell[] {
   const cell = cells[key]
   cells[key] = { ...cell, active: !cell.active }
   return cells
 }
 
-// deactivate all cells
-export const clearCells = cells => {
-  return cells.map(c => {
-    return { ...c, active: false }
-  })
+/**
+ * Deactivate all cells
+ */
+export function clearCells(cells: Cell[]): Cell[] {
+  return cells.map(c => ({ ...c, active: false }))
 }

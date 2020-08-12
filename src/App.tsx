@@ -117,7 +117,7 @@ function reducer(state, action) {
     case STEP:
       return { ...state, cells: updateGrid(state.cells, state.n) }
     case ACTIVATE:
-      return { ...state, cells: activateCell(state.cells.slice(0))(action.key) }
+      return { ...state, cells: activateCell(state.cells.slice(0), action.key) }
     case ClEAR_GRID:
       return { ...state, cells: clearCells(state.cells) }
     default:
