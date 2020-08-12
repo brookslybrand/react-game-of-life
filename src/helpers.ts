@@ -1,104 +1,93 @@
-// assign all the cells random values for whether they are active or not
-// using an array of arrays really might have been the wisest option... wouldn't be too hard to implement,
-// good to think a little more ahead next time
-type Cell = {
-  active: boolean
-  key: number
-}
+type Grid = boolean[][]
+type NumberGrid = (0 | 1)[][]
 
 /**
  * Assign all the cells random values for whether they are active or not
  * using the probActive value
  */
-export function createRandomGrid(n: number, probActive: number): Cell[] {
-  const cells = []
+export function createRandomGrid(n: number, probActive: number): Grid {
+  const grid = []
   for (let i = 0; i < n; i++) {
+    const row: boolean[] = []
     for (let j = 0; j < n; j++) {
-      cells[i + j * n] = {
-        active: Math.random() < probActive,
-        key: i + j * n,
-      }
+      row.push(Math.random() < probActive)
     }
+    grid.push(row)
   }
-  return cells
-}
-
-// l, r, t, b mean the cell is on the left, right, top, and bottom respectively
-const neighbors = (cells: Cell[]) => (n: number) => (key: number) => (
-  l: boolean,
-  r: boolean,
-  t: boolean,
-  b: boolean
-) => {
-  return [
-    // if not a left cell, check cell to the left
-    !l && cells[key - 1].active,
-    // if not  right cell, check cell on right side
-    !r && cells[key + 1].active,
-    // if not on top check cells on top
-    !t &&
-      cells
-        .slice(
-          // include left?
-          !l ? key - n - 1 : key - n,
-          // include right?
-          !r ? key - n + 2 : key - n + 1
-        )
-        .map(c => c.active),
-    // if not on bottom check cells on top
-    !b &&
-      cells
-        .slice(
-          // include left?
-          !l ? key + n - 1 : key + n,
-          // include right?
-          !r ? key + n + 2 : key + n + 1
-        )
-        .map(c => c.active),
-  ]
-    .flat()
-    .reduce((count, active) => (active ? count + 1 : count), 0)
+  return grid
 }
 
 // calculate how many of the neighbors are active
-function neighborsActive(cells: Cell[], cell: Cell, n: number) {
-  const { key } = cell
-  const leftCond = key % n === 0
-  // if the cell is on the left, it can't be on the right
-  const rightCond = !leftCond && (key + 1) % n === 0
-  // if the cell is on the top, it can't be on the bottom
-  const topCond = key < n
-  const botCond = !topCond && n * n - key <= n
 
-  return neighbors(cells)(n)(key)(leftCond, rightCond, topCond, botCond)
+function numberOfActiveNeighbors(
+  numberGrid: NumberGrid,
+  row: number,
+  col: number
+) {
+  const gridSize = numberGrid.length
+  let count = 0
+
+  const prevRowIndex = wrapIndex(row - 1, gridSize)
+  const nextRowIndex = wrapIndex(row + 1, gridSize)
+  const prevColIndex = wrapIndex(col - 1, gridSize)
+  const nextColIndex = wrapIndex(col + 1, gridSize)
+
+  const prevRow = numberGrid[prevRowIndex]
+  const nextRow = numberGrid[nextRowIndex]
+  count += numberGrid[row][prevColIndex] + numberGrid[row][nextColIndex]
+  count += prevRow[prevColIndex] + prevRow[col] + prevRow[nextColIndex]
+  count += nextRow[prevColIndex] + nextRow[col] + nextRow[nextColIndex]
+
+  return count
+}
+/**
+ * If an index that is too small (< 0) or too large (> gridSize)
+ * return the wrapped value.
+ */
+function wrapIndex(index: number, gridSize: number) {
+  if (0 <= index && index < gridSize) return index
+  else if (index === -1) {
+    return gridSize - 1
+  } else if (index === gridSize) {
+    return 0
+  } else {
+    throw Error(`No logic for cases where index is ${index}`)
+  }
 }
 
 /**
- * Update a cell according to the Game of Life rules
+ * Update all cells in the grid according to the Game of Life rules:
+ * - Any live cell with fewer than two live neighbours dies, as if by underpopulation.
+ * - Any live cell with two or three live neighbours lives on to the next generation.
+ * - Any live cell with more than three live neighbours dies, as if by overpopulation.
+ * - Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+ *
+ * source: https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
  */
-function updateCell(cells: Cell[], cell: Cell, n: number) {
-  const neighbors = neighborsActive(cells, cell, n)
-  return neighbors === 3 || (cell.active && neighbors === 2)
-}
-
-/**
- * Update all cells in the grid
- */
-export function updateGrid(cells: Cell[], n: number): Cell[] {
-  return cells.map(c => ({ ...c, active: updateCell(cells, c, n) }))
+export function updateGrid(grid: Grid): Grid {
+  const numberGrid = grid.map(row => row.map(active => (active ? 1 : 0)))
+  return grid.map((row, i) => {
+    return row.map((active, j) => {
+      const neighbors = numberOfActiveNeighbors(numberGrid, i, j)
+      // Whether dead or alive, exactly 3 neighbors means you're alive
+      // otherwise, only if you were alive and have 2 neighbors will you
+      // still be alive. Beyond that all other cells should be dead
+      return neighbors === 3 || (active && neighbors === 2)
+    })
+  })
 }
 /**
  * Activate (or deactivate) a single cell
  */
-export function activateCell(cells: Cell[], key: number): Cell[] {
-  const cell = cells[key]
-  cells[key] = { ...cell, active: !cell.active }
-  return cells
+export function toggleCell(grid: Grid, row: number, col: number): Grid {
+  const gridCopy = grid.map(row => [...row])
+  gridCopy[row][col] = !gridCopy[row][col]
+  return gridCopy
 }
 
 /**
  * Deactivate all cells
  */
-export function clearCells(cells: Cell[]): Cell[] {
-  return cells.map(c => ({ ...c, active: false }))
+export function clearCells(grid: Grid): Grid {
+  return grid.map(row => row.map(() => false))
 }

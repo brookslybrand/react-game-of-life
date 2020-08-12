@@ -3,18 +3,13 @@ import React, { useEffect, useReducer, Fragment } from 'react'
 
 import Game from './Game'
 
-import {
-  createRandomGrid,
-  updateGrid,
-  activateCell,
-  clearCells,
-} from './helpers'
+import { createRandomGrid, updateGrid, toggleCell, clearCells } from './helpers'
 import {
   START_TICKER,
   STOP_TICKER,
   RANDOMIZE_GRID,
   STEP,
-  ACTIVATE,
+  TOGGLE_CELL,
   ClEAR_GRID,
 } from './constants'
 import Controls from './Controls'
@@ -116,8 +111,8 @@ function reducer(state, action) {
       }
     case STEP:
       return { ...state, cells: updateGrid(state.cells, state.n) }
-    case ACTIVATE:
-      return { ...state, cells: activateCell(state.cells.slice(0), action.key) }
+    case TOGGLE_CELL:
+      return { ...state, cells: toggleCell(state.cells.slice(0), action.key) }
     case ClEAR_GRID:
       return { ...state, cells: clearCells(state.cells) }
     default:

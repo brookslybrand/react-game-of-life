@@ -1,5 +1,5 @@
 import React, { memo, Fragment } from 'react'
-import { ACTIVATE } from './constants'
+import { TOGGLE_CELL } from './constants'
 
 import { CellObject } from './types'
 
@@ -30,7 +30,7 @@ const Cell = memo(function Cell({ cellKey, active, dispatch }: CellProps) {
       className={`border border-black opacity-75 ${
         active ? 'bg-yellow-400' : 'bg-gray-500'
       }`}
-      onClick={() => dispatch({ type: ACTIVATE, key: cellKey })}
+      onClick={() => dispatch({ type: TOGGLE_CELL, key: cellKey })}
     />
   )
 })

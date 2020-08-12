@@ -6,7 +6,7 @@ import {
   START_TICKER,
   STOP_TICKER,
   RANDOMIZE_GRID,
-  ClEAR_GRID
+  ClEAR_GRID,
 } from './constants'
 
 // returns a simple grid of four buttons
@@ -41,7 +41,7 @@ function Button({ className, ...props }) {
     <button
       className={classNames(
         buttonClassName,
-        className ?? 'bg-gray-300 hover:bg-gray-500 text-gray-900 '
+        className ?? 'bg-gray-300 hover:bg-gray-500 text-gray-900'
       )}
       {...props}
     />
