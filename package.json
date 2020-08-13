@@ -13,6 +13,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "^3.4.2",
+    "recoil": "^0.0.10",
     "typescript": "^3.9.7",
     "xstate": "^4.11.0"
   },

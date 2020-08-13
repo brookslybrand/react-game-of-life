@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import { Grid, Dispatch } from './types'
+import { useCell, useGetGrid } from './game-state'
 
 type CellsGridProps = {
   grid: Grid
@@ -8,6 +9,8 @@ type CellsGridProps = {
 }
 
 function CellsGrid({ grid, dispatch }: CellsGridProps) {
+  const myGrid = useGetGrid()
+  console.log(myGrid)
   return (
     <>
       {grid
@@ -40,10 +43,16 @@ const Cell = React.memo(function Cell({
   col,
   dispatch,
 }: CellProps) {
+  const [cell, setCell] = useCell(`${row}-${col}`)
+
+  // React.useEffect(() => {
+  //   setCell(active)
+  // }, [active, setCell])
+
   return (
     <button
       className={`border border-black opacity-75 ${
-        active ? 'bg-yellow-400' : 'bg-gray-500'
+        cell ? 'bg-yellow-400' : 'bg-gray-500'
       }`}
       onClick={() => dispatch({ type: 'TOGGLE_CELL', row, col })}
     />

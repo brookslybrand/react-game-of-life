@@ -4,6 +4,7 @@ import Game from './Game'
 
 import Controls from './Controls'
 import { GameStateProvider } from './game-state'
+import { RecoilRoot } from 'recoil'
 
 function App() {
   // render the app and pass along the state and action functions
@@ -11,15 +12,17 @@ function App() {
     <div className="antialiased font-sans p-6 bg-gray-100">
       <h1 className="text-4xl text-gray-800">John Conway's Game of Life</h1>
       <h2 className="text-ls text-gray-800">Implemented using React</h2>
-      <GameStateProvider>
-        <div className="flex flex-col lg:flex lg:flex-row">
-          <div className="flex flex-col">
-            <Description />
-            <Controls />
+      <RecoilRoot>
+        <GameStateProvider>
+          <div className="flex flex-col lg:flex lg:flex-row">
+            <div className="flex flex-col">
+              <Description />
+              <Controls />
+            </div>
+            <Game className="m-0 lg:ml-8" />
           </div>
-          <Game className="m-0 lg:ml-8" />
-        </div>
-      </GameStateProvider>
+        </GameStateProvider>
+      </RecoilRoot>
     </div>
   )
 }

@@ -1,9 +1,18 @@
 import * as React from 'react'
+import {
+  atomFamily,
+  selectorFamily,
+  selector,
+  waitForAll,
+  useRecoilValue,
+  useRecoilState,
+  useSetRecoilState,
+} from 'recoil'
 import { Grid, AppState, Action, Dispatch } from './types'
 
 const { createContext, useContext, useReducer, useEffect } = React
 
-const n = 50
+const n = 10
 const probActive = 0.3
 const width = 500
 const initialState = {
@@ -18,8 +27,146 @@ const initialState = {
 const GameStateContext = createContext<AppState>(initialState)
 const GameDispatchContext = createContext<Dispatch>(() => initialState)
 
+const gridAtomFamily = atomFamily({
+  key: 'gridAtomFamily',
+  default: false,
+})
+
+const cellSelector = selectorFamily<boolean, { key: string }>({
+  key: 'cellSelector',
+  get: ({ key }) => ({ get }) => {
+    return get(gridAtomFamily(key))
+  },
+  set: ({ key }: { key: string }) => ({ set }, active) => {
+    set(gridAtomFamily(key), active)
+  },
+})
+
+type GridAction =
+  | { type: 'RANDOMIZE_GRID' }
+  | { type: 'STEP' }
+  | { type: 'ClEAR_GRID' }
+
+const gridSelector = selector<any>({
+  key: 'gridSelector',
+  get: ({ get }) => {
+    const grid = []
+    for (let row = 0; row < n; row++) {
+      const rowInAtoms = []
+      for (let col = 0; col < n; col++) {
+        const cell = gridAtomFamily(getKey(row, col))
+        rowInAtoms.push(cell)
+      }
+      grid.push(get(waitForAll(rowInAtoms)))
+    }
+    return grid
+  },
+  set: ({ get, set }, { type }: GridAction) => {
+    for (let row = 0; row < n; row++) {
+      const updateCells = []
+      for (let col = 0; col < n; col++) {
+        const key = getKey(row, col)
+        let newCell
+
+        switch (type) {
+          case 'ClEAR_GRID': {
+            newCell = false
+            break
+          }
+          case 'RANDOMIZE_GRID': {
+            newCell = Math.random() < probActive
+            break
+          }
+          case 'STEP': {
+            const cell = gridAtomFamily(key)
+            const neighbors = get(neighborsActiveSelector({ row, col }))
+            // Whether dead or alive, exactly 3 neighbors means you're alive
+            // otherwise, only if you were alive and have 2 neighbors will you
+            // still be alive. Beyond that all other cells should be dead
+            newCell = neighbors === 3 || (cell && neighbors === 2)
+            break
+          }
+        }
+
+        updateCells.push({ key, cell: newCell })
+      }
+      // have to loop through again because I'm not sure if setting in the middle
+      // would alter the state half way through
+      for (const { key, cell } of updateCells) {
+        set(cellSelector({ key }), cell)
+      }
+    }
+  },
+})
+
+export function useGetGrid() {
+  return useRecoilValue(gridSelector)
+}
+
+export function useSetGrid() {
+  return useSetRecoilState(gridSelector)
+}
+
+// const neighbors = neighborsActiveSelector({row, col})
+
+const neighborsActiveSelector = selectorFamily<
+  number,
+  { row: number; col: number }
+>({
+  key: 'neighborsActiveSelector',
+  get: ({ row, col }) => ({ get }) => {
+    const gridSize = n // TODO pass this in
+
+    const getActive = (row: number, col: number) => {
+      return booleanToNumber(get(gridAtomFamily(getKey(row, col))))
+    }
+
+    const prevRowIndex = wrapIndex(row - 1, gridSize)
+    const nextRowIndex = wrapIndex(row + 1, gridSize)
+    const prevColIndex = wrapIndex(col - 1, gridSize)
+    const nextColIndex = wrapIndex(col + 1, gridSize)
+
+    // add the 8 neighbors together
+    return (
+      // previous row
+      getActive(prevRowIndex, prevColIndex) +
+      getActive(prevRowIndex, col) +
+      getActive(prevRowIndex, nextColIndex) +
+      // current row
+      getActive(row, prevColIndex) +
+      getActive(row, nextColIndex) +
+      // next row
+      getActive(nextRowIndex, prevColIndex) +
+      getActive(nextRowIndex, col) +
+      getActive(nextRowIndex, nextColIndex)
+    )
+  },
+})
+
+function getKey(row: number, col: number) {
+  return `${row}-${col}`
+}
+
+function booleanToNumber(bool: boolean) {
+  return bool ? 1 : 0
+}
+
+export function useCell(key: string) {
+  return useRecoilState(cellSelector({ key }))
+}
+
 export function GameStateProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState)
+
+  const mounted = React.useRef(false)
+  const setGrid = useSetGrid()
+
+  useEffect(() => {
+    if (!mounted.current) {
+      setGrid({ type: 'RANDOMIZE_GRID' })
+      mounted.current = true
+    }
+  }, [setGrid])
 
   useEffect(() => {
     let cancel = false
