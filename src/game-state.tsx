@@ -10,8 +10,6 @@ import {
 } from 'recoil'
 import { Grid, AppState, Action, Dispatch } from './types'
 
-const { createContext, useContext, useReducer, useEffect } = React
-
 const n = 10
 const probActive = 0.3
 const width = 500
@@ -24,8 +22,8 @@ const initialState = {
   grid: createRandomGrid(n, probActive),
 }
 // have to set these initial states so typescript doesn't wine
-const GameStateContext = createContext<AppState>(initialState)
-const GameDispatchContext = createContext<Dispatch>(() => initialState)
+const GameStateContext = React.createContext<AppState>(initialState)
+const GameDispatchContext = React.createContext<Dispatch>(() => initialState)
 
 const gridAtomFamily = atomFamily({
   key: 'gridAtomFamily',
@@ -155,20 +153,57 @@ export function useCell(key: string) {
   return useRecoilState(cellSelector({ key }))
 }
 
+export function useInitializeGrid() {
+  const mounted = React.useRef(false)
+  const setGrid = useSetGrid()
+
+  React.useEffect(() => {
+    if (!mounted.current) {
+      setGrid({ type: 'RANDOMIZE_GRID' })
+      mounted.current = true
+    }
+  }, [setGrid])
+}
+
+export function useGameTick() {
+  const setGrid = useSetGrid()
+  const [tickerStarted, setTickerStarted] = React.useState(false)
+
+  React.useEffect(() => {
+    let cancel = false
+    if (tickerStarted) {
+      const ticker = () => {
+        setGrid({ type: 'STEP' })
+        if (!cancel) window.requestAnimationFrame(ticker)
+      }
+      ticker()
+    }
+
+    return () => {
+      cancel = true
+    }
+  }, [setGrid, tickerStarted])
+
+  return {
+    startTicker: () => setTickerStarted(true),
+    stopTicker: () => setTickerStarted(false),
+  }
+}
+
 export function GameStateProvider({ children }: { children: React.ReactNode }) {
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const [state, dispatch] = React.useReducer(reducer, initialState)
 
   const mounted = React.useRef(false)
   const setGrid = useSetGrid()
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (!mounted.current) {
       setGrid({ type: 'RANDOMIZE_GRID' })
       mounted.current = true
     }
   }, [setGrid])
 
-  useEffect(() => {
+  React.useEffect(() => {
     let cancel = false
     if (state.tickerStarted) {
       const ticker = () => {
@@ -193,11 +228,11 @@ export function GameStateProvider({ children }: { children: React.ReactNode }) {
 }
 
 export function useGameState() {
-  return useContext(GameStateContext)
+  return React.useContext(GameStateContext)
 }
 
 export function useGameDispatch() {
-  return useContext(GameDispatchContext)
+  return React.useContext(GameDispatchContext)
 }
 
 /*

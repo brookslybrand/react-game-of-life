@@ -1,15 +1,16 @@
 import * as React from 'react'
 import classNames from 'classnames'
 
-import { useGameDispatch } from './game-state'
+import { useSetGrid, useInitializeGrid, useGameTick } from './game-state'
 
 // returns a simple grid of four buttons
 const Controls = function Controls({ className }: { className?: string }) {
-  const dispatch = useGameDispatch()
-  const startTicker = () => dispatch({ type: 'START_TICKER' })
-  const stopTicker = () => dispatch({ type: 'STOP_TICKER' })
-  const randomizeGrid = () => dispatch({ type: 'RANDOMIZE_GRID' })
-  const clearGrid = () => dispatch({ type: 'ClEAR_GRID' })
+  useInitializeGrid()
+
+  const setGrid = useSetGrid()
+  const { startTicker, stopTicker } = useGameTick()
+  const randomizeGrid = () => setGrid({ type: 'RANDOMIZE_GRID' })
+  const clearGrid = () => setGrid({ type: 'ClEAR_GRID' })
 
   return (
     <div
