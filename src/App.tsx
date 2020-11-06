@@ -8,9 +8,9 @@ import { GameStateProvider } from './game-state'
 function App() {
   // render the app and pass along the state and action functions
   return (
-    <div className="antialiased font-sans p-6 bg-gray-100">
+    <div className="h-screen p-6 font-sans antialiased bg-gray-100 ">
       <h1 className="text-4xl text-gray-800">John Conway's Game of Life</h1>
-      <h2 className="text-ls text-gray-800">Implemented using React</h2>
+      <h2 className="text-gray-800 text-ls">Implemented using React</h2>
       <GameStateProvider>
         <div className="flex flex-col lg:flex lg:flex-row">
           <div className="flex flex-col">
@@ -27,7 +27,7 @@ function App() {
 // this is another component just to reduce some of the noise
 function Description() {
   return (
-    <div className="max-w-md rounded overflow-hidden shadow-lg mt-4 p-4">
+    <div className="max-w-md p-4 mt-4 overflow-hidden rounded shadow-lg">
       <h3 className="text-xl font-bold">Rules of the Game:</h3>
       <p>
         An inactive (gray) cell will become active (yellow) in the next
