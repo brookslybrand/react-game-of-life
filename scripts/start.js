@@ -1,0 +1,33 @@
+const { build } = require('esbuild')
+const chokidar = require('chokidar')
+const liveServer = require('live-server')
+
+// Based on https://github.com/zaydek/esbuild-hot-reload.
+;(async () => {
+  const builder = await build({
+    bundle: true,
+    define: {
+      'process.env.NODE_ENV': JSON.stringify(
+        process.env.NODE_ENV || 'development'
+      ),
+    },
+    entryPoints: ['src/index.tsx'],
+    incremental: true,
+    minify: process.env.NODE_ENV === 'production',
+    outdir: 'public/build',
+  })
+  chokidar
+    .watch('src/**/*.{js,jsx,ts,tsx}', {
+      interval: 0,
+    })
+    .on('all', () => {
+      builder.rebuild()
+    })
+  liveServer.start({
+    file: 'index.html',
+    host: 'localhost',
+    open: true,
+    port: +process.env.PORT || 3000,
+    root: 'public',
+  })
+})()
