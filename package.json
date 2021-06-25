@@ -20,7 +20,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "analyze": "npm run build && source-map-explorer 'build/static/js/*.js'"
+    "analyze": "npm run build && source-map-explorer 'build/static/js/*.js'",
+    "build:esbuild": "npm run prebuild && esbuild ./src/index.jsx --bundle --minify --sourcemap --outdir=public/build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -46,6 +47,7 @@
     "@typescript-eslint/eslint-plugin": "^4.6.1",
     "@typescript-eslint/parser": "^4.6.1",
     "autoprefixer": "^10.0.1",
+    "esbuild": "^0.12.9",
     "eslint-config-react-app": "^6.0.0",
     "eslint-plugin-flowtype": "^5.2.0",
     "eslint-plugin-import": "^2.22.0",
